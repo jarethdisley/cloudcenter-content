@@ -1,3 +1,5 @@
+import os
+
 # Variables used to detect OS for printing OS specific IPAM options and key injection.
 osn = os.environ['eNV_osName']  # uses CloudCenter environment variable to detect OS Type (linux or windows)
 winver = os.environ['eNV_imageName']  # detects image name to get windows version so we can inject proper temp windows key
@@ -26,25 +28,22 @@ if osn == "Linux":
     print("domainName="+domain)
     print("timeZone=US/Central")
     print("hwClockUTC=true")
-
-elif winver == "Windows Server 2012":
+    
+if osn == "Windows":
     print("timeZoneId=20")
     print("fullName=administrator")
     print("organization=MyCompany")
     print("setAdminPassword=Password")
-    print("productKey=D2N9P-3P6X9-2R39C-7RTCD-MDVJX")  # This is Windows Temp license key.https://technet.microsoft.com/en-us/library/jj612867(v=ws.11).aspx
     print("changeSid=true")  # Required to launch Windows in vmware
     print("domainName=mydomain.com")  # Required to join Windows to domain
     print("domainAdminName=ADACCOUNT")  # Required to join Windows to domain - this is the user that had proper permissions
     print("domainAdminPassword=Password")  # Required to join Windows to domain
+
+elif winver == "Windows Server 2016":
+    print("productKey=WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY")  # This is Windows Temp license key.https://technet.microsoft.com/en-us/library/jj612867(v=ws.11).aspx
+    
+elif winver == "Windows Server 2012":
+    print("productKey=D2N9P-3P6X9-2R39C-7RTCD-MDVJX")  # This is Windows Temp license key.https://technet.microsoft.com/en-us/library/jj612867(v=ws.11).aspx
 
 elif winver == "Windows Server 2008":
-    print("timeZoneId=20")
-    print("fullName=administrator")
-    print("organization=MyCompany")
-    print("setAdminPassword=Password")
     print("productKey=YC6KT-GKW9T-YTKYR-T4X34-R7VHC")  # This is Windows Temp license key.https://technet.microsoft.com/en-us/library/jj612867(v=ws.11).aspx
-    print("changeSid=true")  # Required to launch Windows in vmware
-    print("domainName=mydomain.com")  # Required to join Windows to domain
-    print("domainAdminName=ADACCOUNT")  # Required to join Windows to domain - this is the user that had proper permissions
-    print("domainAdminPassword=Password")  # Required to join Windows to domain
